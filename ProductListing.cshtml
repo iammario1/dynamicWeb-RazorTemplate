@@ -1,0 +1,64 @@
+@{
+    Layout = "MasterLayout.cshtml";
+    var products = GetProducts(); // Assuming GetProducts() fetches the product list
+    var categories = GetCategories(); // Assuming GetCategories() fetches the category list
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing</title>
+    <link rel="stylesheet" href="@AssetUrl("styles.css")">
+</head>
+<body>
+    <header>
+        <h1>Product Listing</h1>
+    </header>
+    <main>
+        <aside>
+            <h2>Filters</h2>
+            <div class="filter-category">
+                <h3>Category</h3>
+                <ul>
+                    @foreach(var category in categories)
+                    {
+                        <li>
+                            <label>
+                                <input type="checkbox" class="filter-checkbox" value="@category.Id" />
+                                @category.Name
+                            </label>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </aside>
+        <section class="product-list">
+            <div class="sort-options">
+                <label for="sort">Sort by:</label>
+                <select id="sort" class="sort-select">
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                    <option value="name-desc">Name: Z to A</option>
+                </select>
+            </div>
+            <div id="productContainer">
+                @foreach(var product in products)
+                {
+                    <div class="product-item" data-category="@product.CategoryId">
+                        <h3>@product.Name</h3>
+                        <p>@product.Description</p>
+                        <p class="price">$@product.Price</p>
+                    </div>
+                }
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Concept. All rights reserved.</p>
+    </footer>
+    <script src="@AssetUrl("scripts.js")"></script>
+</body>
+</html>
